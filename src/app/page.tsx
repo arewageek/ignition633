@@ -1,12 +1,13 @@
 "use client"
 
-import { authenticate } from "@/actions/auth.actions";
+import { authenticate, simulateNewAccount } from "@/actions/auth.actions";
 import Button from "@/components/button";
 import Card from "@/components/card";
 import Input from "@/components/input";
+import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function Home() {
@@ -24,10 +25,28 @@ export default function Home() {
       toast.error(authenticated.message)
       return false;
     }
+
+
+
     toast.success("Authentication successful")
 
     setTimeout(() => setIsLoading(true), 1000)
   }
+
+  const simulateAccount = async (e?: any) => {
+    e && e.preventDefault();
+
+    const done = await simulateNewAccount()
+    console.log({ done })
+    if (!done.success) { toast.error("Error occurred"); return null }
+
+    toast.success("Complete");
+    return null;
+  }
+
+  useEffect(() => {
+    simulateAccount()
+  }, [])
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center">
@@ -66,6 +85,12 @@ export default function Home() {
       <div className="mt-8">
         <Button isSubmit={true} text="Log in" onclick={handleLogin} isLoading={isLoading} />
       </div>
+
+      {/* <div>
+        <button className="p-3 bg-black text-white w-full text-centers mt-4" onClick={() => simulateAccount}>
+          Simulate Account
+        </button>
+      </div> */}
     </div>
   );
 }
