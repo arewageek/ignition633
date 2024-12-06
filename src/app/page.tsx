@@ -1,18 +1,32 @@
 "use client"
 
+import { authenticate } from "@/actions/auth.actions";
 import Button from "@/components/button";
 import Card from "@/components/card";
 import Input from "@/components/input";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
+  const [rememberMe, setRememberMe] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
+    setIsLoading(true)
 
+    const authenticated = await authenticate({ username, password, rememberMe })
+    if (!authenticated.success) {
+      setIsLoading(false)
+      toast.error(authenticated.message)
+      return false;
+    }
+    toast.success("Authentication successful")
+
+    setTimeout(() => setIsLoading(true), 1000)
   }
 
   return (
@@ -23,7 +37,7 @@ export default function Home() {
             <h3>Login</h3>
           </div>
           <div className="flex justify-end">
-            <Button text="Register Now" classes="w-fit rounded-lg bg-none border-2 border-gray-800 px-6 py-1.5 text-sm font-medium" />
+            <Button onclick={() => null} text="Register Now" classes="w-fit rounded-lg bg-none border-2 border-gray-800 px-6 py-1.5 text-sm font-medium" />
           </div>
           <div>
             <Input placeholder="Username" value={username} onchange={setUsername} type="text" />
@@ -50,7 +64,7 @@ export default function Home() {
         </Card>
       </div>
       <div className="mt-8">
-        <Button isSubmit={true} text="Log in" onclick={handleLogin} />
+        <Button isSubmit={true} text="Log in" onclick={handleLogin} isLoading={isLoading} />
       </div>
     </div>
   );

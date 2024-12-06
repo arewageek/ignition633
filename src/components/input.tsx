@@ -11,7 +11,7 @@ interface Props {
 const Input = ({ placeholder, value, onchange, type }: Props) => {
     return (
         <div className='py-2'>
-            <input type={type} placeholder={placeholder} value={value} onChange={e => onchange(e.target.value)} className='border-[1.5px] border-gray-800 rounded-lg w-full px-2 py-3 bg-white' />
+            <input required type={type} placeholder={placeholder} value={value} onChange={e => onchange(e.target.value)} className='border-[1.5px] border-gray-800 rounded-lg w-full px-2 py-3 bg-white' />
         </div>
     )
 }
