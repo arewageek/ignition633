@@ -17,7 +17,7 @@ export async function authenticate({
   rememberMe,
 }: IAuth): Promise<{
   success: boolean;
-  user?: { user: IUser; authToken: string };
+  user?: string;
   message?: string;
 }> {
   try {
@@ -44,7 +44,7 @@ export async function authenticate({
       }
     );
 
-    return { success: true, user: { user, authToken } };
+    return { success: true, user: authToken };
   } catch (error: any) {
     return { success: false, message: error.message || "Server error" };
   }
