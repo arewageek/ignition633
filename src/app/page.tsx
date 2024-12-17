@@ -44,9 +44,9 @@ export default function Home() {
     return null;
   }
 
-  useEffect(() => {
-    simulateAccount()
-  }, [])
+  // useEffect(() => {
+  //   simulateAccount()
+  // }, [])
 
   return (
     <div className="h-screen w-screen flex flex-col justify-center">
@@ -85,12 +85,6 @@ export default function Home() {
       <div className="mt-8">
         <Button isSubmit={true} text="Log in" onclick={handleLogin} isLoading={isLoading} />
       </div>
-
-      {/* <div>
-        <button className="p-3 bg-black text-white w-full text-centers mt-4" onClick={() => simulateAccount}>
-          Simulate Account
-        </button>
-      </div> */}
     </div>
   );
 }
